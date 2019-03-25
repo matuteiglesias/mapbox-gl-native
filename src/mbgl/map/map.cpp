@@ -29,12 +29,11 @@ using namespace style;
 
 Map::Map(RendererFrontend& frontend,
          MapObserver& observer,
-         const Size size,
          const float pixelRatio,
          Scheduler& scheduler,
          const MapOptions& mapOptions,
          const ResourceOptions& resourceOptions)
-    : impl(std::make_unique<Impl>(frontend, observer, scheduler, size, pixelRatio,
+    : impl(std::make_unique<Impl>(frontend, observer, scheduler, pixelRatio,
                                   FileSource::getSharedFileSource(resourceOptions), mapOptions)) {}
 
 Map::Map(std::unique_ptr<Impl> impl_) : impl(std::move(impl_)) {}
@@ -315,10 +314,6 @@ void Map::setSize(const Size size) {
     impl->onUpdate();
 }
 
-Size Map::getSize() const {
-    return impl->transform.getState().getSize();
-}
-
 #pragma mark - North Orientation
 
 void Map::setNorthOrientation(NorthOrientation orientation) {
@@ -348,7 +343,8 @@ MapOptions Map::getMapOptions() const {
         .withConstrainMode(impl->transform.getConstrainMode())
         .withViewportMode(impl->transform.getViewportMode())
         .withCrossSourceCollisions(impl->crossSourceCollisions)
-        .withNorthOrientation(impl->transform.getNorthOrientation()));
+        .withNorthOrientation(impl->transform.getNorthOrientation())
+        .withSize(impl->transform.getState().getSize()));
 }
 
 #pragma mark - Projection mode
