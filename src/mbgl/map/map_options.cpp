@@ -7,6 +7,7 @@ public:
     MapMode mapMode = MapMode::Continuous;
     ConstrainMode constrainMode = ConstrainMode::HeightOnly;
     ViewportMode viewportMode = ViewportMode::Default;
+    NorthOrientation orientation = NorthOrientation::Upwards;
     bool crossSourceCollisions = true;
 };
 
@@ -49,6 +50,15 @@ MapOptions& MapOptions::withCrossSourceCollisions(bool enableCollisions) {
 
 bool MapOptions::crossSourceCollisions() const {
     return impl_->crossSourceCollisions;
+}
+
+MapOptions& MapOptions::withNorthOrientation(NorthOrientation mode) {
+    impl_->orientation = mode;
+    return *this;
+}
+
+NorthOrientation MapOptions::northOrientation() const {
+    return impl_->orientation;
 }
 
 }  // namespace mbgl
