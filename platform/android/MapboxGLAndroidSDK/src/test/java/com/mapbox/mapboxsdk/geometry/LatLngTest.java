@@ -186,6 +186,15 @@ public class LatLngTest {
     assertEquals("distance should match", 0.0, distance, DELTA);
   }
 
+  // Regression test for #14216
+  @Test
+  public void testDistanceToClosePointNotNaN(){
+    LatLng latLng =  new LatLng(40.00599, -105.29261);
+    LatLng other = new LatLng(40.005990000000025, -105.29260999999997);
+    double distance = latLng.distanceTo(other);
+    assertNotEquals(distance, Double.NaN);
+  }
+
   @Test
   public void testLocationProvider() {
     double latitude = 1.2;
